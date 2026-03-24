@@ -1,0 +1,18 @@
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        restart: always
+        environment:
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?sslmode=require
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        restart: always
+        depends_on:
+            - backend
+        ports:
+            - "3000:3000"
