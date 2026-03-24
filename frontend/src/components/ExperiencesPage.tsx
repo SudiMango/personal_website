@@ -17,9 +17,8 @@ const workExperiences: Experience[] = [
             {
                 role: "Software Developer",
                 dateRange: "Mar 2026 - Present",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                tags: ["TypeScript", "Node.js", "PostgreSQL"],
+                description: "No description (since I just started).",
+                tags: [],
             },
         ],
     },
@@ -27,7 +26,7 @@ const workExperiences: Experience[] = [
         company: "The Cornerstore",
         roles: [
             {
-                role: "Software Development Lead",
+                role: "Software Development Team Lead",
                 dateRange: "Feb 2026 - Present",
                 description:
                     "Led a 4-person team through weekly sprints; delegating tasks, writing API documentation, tracking deadlines, and contributing full-stack across the backend and frontend.",
@@ -129,7 +128,7 @@ const ExperienceGroup = ({ exp }: { exp: Experience }) => (
 const ExperiencesPage = () => {
     return (
         <div className="flex min-h-screen w-screen justify-center bg-bg-sunken items-center py-20">
-            <div className="max-w-2xl w-full mx-auto flex flex-col gap-14 px-4">
+            <div className="max-w-2xl w-full mx-auto flex flex-col gap-14 px-6">
                 <section className="flex flex-col gap-8">
                     <h2 className="font-bold tracking-widest uppercase text-accent text-2xl">
                         Experiences

@@ -157,7 +157,7 @@ const ProjectsPage = () => {
             <div className="w-full max-w-5xl mx-auto px-10 flex flex-col gap-8">
                 <div className="flex items-center justify-between">
                     <h2 className="font-bold tracking-widest uppercase text-accent text-2xl">
-                        Featured Projects
+                        Projects
                     </h2>
                     <div className="flex items-center gap-3">
                         <button
