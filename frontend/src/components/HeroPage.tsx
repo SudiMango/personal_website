@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -31,20 +30,21 @@ const HeroPage = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen w-screen items-center justify-center bg-bg-base py-20">
-            <div className="flex flex-row">
-                <div className="relative w-105 h-120 shrink-0 shadow-md">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-bg-base py-20 px-6">
+            <div className="flex flex-col min-[1000px]:flex-row items-center gap-10 min-[1000px]:gap-0 w-full justify-center">
+                <div className="relative w-64 h-80 min-[1000px]:w-105 min-[1000px]:h-120 shrink-0 shadow-md">
                     <Image
                         src="/profile-image.jpg"
                         alt="Profile image"
                         fill
                         priority
-                        sizes="(max-width: 768px) 100vw, 420px"
+                        sizes="(max-width: 768px) 256px, 420px"
                         className="object-cover object-top rounded-2xl border-bg-sunken border-3"
                     />
                 </div>
-                <div className="flex flex-col flex-1 max-w-sm gap-3 ml-20 items-end justify-center">
-                    <span className="font-bold text-4xl mb-5 text-accent">
+
+                <div className="flex flex-col flex-1 max-w-sm gap-3 min-[1000px]:ml-20 items-center min-[1000px]:items-end text-center min-[1000px]:text-right justify-center">
+                    <span className="font-bold text-3xl min-[1000px]:text-4xl mb-2 min-[1000px]:mb-5 text-accent">
                         {displayed}
                         <span
                             className={`inline-block w-0.5 h-[1em] bg-current align-middle ml-0.5 transition-opacity duration-75 ${
@@ -52,7 +52,7 @@ const HeroPage = () => {
                             }`}
                         />
                     </span>
-                    <span className="text-right">
+                    <span className="text-sm min-[1000px]:text-base text-text-secondary leading-relaxed">
                         I'm a 2nd year Computer Science student at the
                         University of British Columbia. I like backend
                         development as well as game development.
