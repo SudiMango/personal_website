@@ -18,8 +18,8 @@ dev:
 
 # Make a new database migration
 new-migration:
-	cd be && $(POETRY) run alembic revision --autogenerate -m "$(m)"
+	cd backend && alembic revision --autogenerate -m "$(m)"
 
 # Migrate to new database
 migrate:
-	cd be && alembic upgrade head
+	cd backend && alembic upgrade head
