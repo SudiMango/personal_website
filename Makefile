@@ -6,7 +6,7 @@ fe:
 
 # Start backend
 be:
-	cd backend && uvicorn app.main:app --reload
+	cd backend && uvicorn src.main:app --reload
 
 # Start both simultaneously
 dev:
