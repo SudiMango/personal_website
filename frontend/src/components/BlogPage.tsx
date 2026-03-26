@@ -6,20 +6,23 @@ import { toast } from "sonner";
 const BlogPage = () => {
     const [email, setEmail] = useState("");
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!email) return;
+        if (!email || loading) return;
 
-        setSubmitted(true);
+        setLoading(true);
         const id = toast.loading("Enrolling in mailing list...");
 
         try {
             await apiClient.post("/mailinglist/enroll", { email: email });
             toast.success("Successfully enrolled in mailing list!", { id });
+            setSubmitted(true);
         } catch (err: any) {
             toast.error("Error enrolling in mailing list.", { id });
-            setSubmitted(false);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -49,15 +52,20 @@ const BlogPage = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            disabled={submitted}
+                            disabled={loading || submitted}
                             placeholder="your@email.com"
                             className={`flex-1 text-[0.7rem] px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200 ${submitted ? "text-text-secondary" : "text-text-primary"}`}
                         />
                         <button
                             type="submit"
                             className="text-[0.7rem] tracking-wider px-3 py-2 rounded-lg border border-(--border-strong) bg-bg-elevated text-text-secondary hover:bg-bg-hover hover:text-text-primary transition-all duration-200 shrink-0"
+                            disabled={loading || submitted}
                         >
-                            {submitted ? "Done!" : "Notify me"}
+                            {submitted
+                                ? "Done!"
+                                : loading
+                                  ? "Enrolling..."
+                                  : "Notify me"}
                         </button>
                     </form>
                 </div>
