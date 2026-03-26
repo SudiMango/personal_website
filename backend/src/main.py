@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from src.db import lifespan
+from src.router import health_check_router, mailing_list_router
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 origins = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
 
@@ -14,10 +16,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"status": "ok", "message": "Portfolio API is running"}
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+app.include_router(health_check_router.router)
+app.include_router(mailing_list_router.router)

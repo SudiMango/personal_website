@@ -1,15 +1,26 @@
 "use client";
+import apiClient from "@/lib/client";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const BlogPage = () => {
     const [email, setEmail] = useState("");
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email) return;
-        // TODO: connect to backend
+
         setSubmitted(true);
+        const id = toast.loading("Enrolling in mailing list...");
+
+        try {
+            await apiClient.post("/mailinglist/enroll", { email: email });
+            toast.success("Successfully enrolled in mailing list!", { id });
+        } catch (err: any) {
+            toast.error("Error enrolling in mailing list.", { id });
+            setSubmitted(false);
+        }
     };
 
     return (

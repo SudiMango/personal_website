@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Toaster } from "sonner";
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
@@ -31,6 +32,14 @@ export default function RootLayout({
                 <Header />
                 {children}
                 <Footer />
+                <Toaster
+                    position="top-right"
+                    theme="dark"
+                    duration={5000}
+                    closeButton
+                    richColors
+                    style={{ top: "72px", right: "16px" }}
+                />
             </body>
         </html>
     );

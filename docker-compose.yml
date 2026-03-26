@@ -6,6 +6,9 @@ services:
         restart: always
         environment:
             DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?sslmode=require
+            ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+            SENDER_EMAIL: ${SENDER_EMAIL}
+            SENDER_PASSWORD: ${SENDER_PASSWORD}
 
     frontend:
         build:

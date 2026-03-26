@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { ExternalLink } from "lucide-react";
+import { toast } from "sonner";
+import apiClient from "@/lib/client";
 
 const EMAIL = "sudi2005@proton.me";
 
@@ -69,7 +71,7 @@ const socials = [
 
 const ContactPage = () => {
     const [copied, setCopied] = useState(false);
-    const [mailingEmail, setMailingEmail] = useState("");
+    const [email, setEmail] = useState("");
     const [submitted, setSubmitted] = useState(false);
 
     const handleCopy = () => {
@@ -78,11 +80,20 @@ const ContactPage = () => {
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!mailingEmail) return;
-        // TODO: connect to backend
+        if (!email) return;
+
         setSubmitted(true);
+        const id = toast.loading("Enrolling in mailing list...");
+
+        try {
+            await apiClient.post("/mailinglist/enroll", { email: email });
+            toast.success("Successfully enrolled in mailing list!", { id });
+        } catch (err: any) {
+            toast.error("Error enrolling in mailing list.", { id });
+            setSubmitted(false);
+        }
     };
 
     return (
@@ -185,8 +196,8 @@ const ContactPage = () => {
                     <form onSubmit={handleSubmit} className="flex gap-2">
                         <input
                             type="email"
-                            value={mailingEmail}
-                            onChange={(e) => setMailingEmail(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             disabled={submitted}
                             placeholder="your@email.com"
                             className={`flex-1 text-[0.7rem] px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200 ${submitted ? "text-text-secondary" : "text-text-primary"}`}
