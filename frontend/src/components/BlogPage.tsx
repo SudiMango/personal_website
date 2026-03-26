@@ -24,7 +24,7 @@ const BlogPage = () => {
     };
 
     return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-bg-base">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-bg-base">
             <div className="flex flex-col items-center gap-8 text-center px-10 max-w-md">
                 <div className="flex flex-col items-center gap-3">
                     <h1 className="font-bold tracking-widest uppercase text-accent text-2xl">

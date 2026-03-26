@@ -1,4 +1,3 @@
-import React from "react";
 import HeroPage from "./HeroPage";
 import ExperiencesPage from "./ExperiencesPage";
 import ProjectsPage from "./ProjectsPage";

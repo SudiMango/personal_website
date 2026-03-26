@@ -30,7 +30,7 @@ const HeroPage = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-bg-base py-20 px-6">
+        <div className="flex min-h-screen w-screen items-center justify-center bg-bg-base py-20 px-6">
             <div className="flex flex-col min-[1000px]:flex-row items-center gap-10 min-[1000px]:gap-0 w-full justify-center">
                 <div className="relative w-64 h-80 min-[1000px]:w-105 min-[1000px]:h-120 shrink-0 shadow-md">
                     <Image

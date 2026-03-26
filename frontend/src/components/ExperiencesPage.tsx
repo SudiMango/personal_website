@@ -127,7 +127,7 @@ const ExperienceGroup = ({ exp }: { exp: Experience }) => (
 
 const ExperiencesPage = () => {
     return (
-        <div className="flex min-h-screen w-full justify-center bg-bg-sunken items-center py-20">
+        <div className="flex min-h-screen w-screen justify-center bg-bg-sunken items-center py-20">
             <div className="max-w-2xl w-full mx-auto flex flex-col gap-14 px-6">
                 <section className="flex flex-col gap-8">
                     <h2 className="font-bold tracking-widest uppercase text-accent text-2xl">
