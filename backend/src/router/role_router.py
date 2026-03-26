@@ -5,11 +5,12 @@ from sqlalchemy.orm import Session
 from src.schema.role_schemas import CreateRoleRequest, RoleResponse, UpdateRoleRequest
 from ..db import get_db
 from ..service.role_service import RoleService
+from ..auth import verify_admin
 
 router = APIRouter(prefix="/role")
 service = RoleService()
 
-@router.post("/{experience_id}", status_code=status.HTTP_201_CREATED, response_model=RoleResponse)
+@router.post("/{experience_id}", status_code=status.HTTP_201_CREATED, response_model=RoleResponse, dependencies=[Depends(verify_admin)])
 def create(experience_id: UUID, request: CreateRoleRequest, db: Session = Depends(get_db)):
     """
     Create new role
@@ -72,7 +73,7 @@ def get_one(role_id: UUID, db: Session = Depends(get_db)):
 
     return service.get_one(db, role_id)
 
-@router.patch("/{role_id}", status_code=status.HTTP_200_OK, response_model=RoleResponse)
+@router.patch("/{role_id}", status_code=status.HTTP_200_OK, response_model=RoleResponse, dependencies=[Depends(verify_admin)])
 def update(role_id: UUID, request: UpdateRoleRequest, db: Session = Depends(get_db)):
     """
     Update a role
@@ -94,7 +95,7 @@ def update(role_id: UUID, request: UpdateRoleRequest, db: Session = Depends(get_
 
     return service.update(db, role_id, request)
 
-@router.delete("/{role_id}", status_code=status.HTTP_200_OK)
+@router.delete("/{role_id}", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_admin)])
 def delete(role_id: UUID, db: Session = Depends(get_db)):
     """
     Delete a role

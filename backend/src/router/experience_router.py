@@ -5,11 +5,12 @@ from sqlalchemy.orm import Session
 from src.schema.experience_schemas import CreateExperienceRequest, ExperienceResponse, UpdateExperienceRequest
 from ..db import get_db
 from ..service.experience_service import ExperienceService
+from ..auth import verify_admin
 
 router = APIRouter(prefix="/experience")
 service = ExperienceService()
 
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=ExperienceResponse)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=ExperienceResponse, dependencies=[Depends(verify_admin)])
 def create(request: CreateExperienceRequest, db: Session = Depends(get_db)):
     """
     Create new experience
@@ -69,7 +70,7 @@ def get_one(experience_id: UUID, db: Session = Depends(get_db)):
 
     return service.get_one(db, experience_id)
 
-@router.patch("/{experience_id}", status_code=status.HTTP_200_OK, response_model=ExperienceResponse)
+@router.patch("/{experience_id}", status_code=status.HTTP_200_OK, response_model=ExperienceResponse, dependencies=[Depends(verify_admin)])
 def update(experience_id: UUID, request: UpdateExperienceRequest, db: Session = Depends(get_db)):
     """
     Update an experience
@@ -91,7 +92,7 @@ def update(experience_id: UUID, request: UpdateExperienceRequest, db: Session = 
 
     return service.update(db, experience_id, request)
 
-@router.delete("/{experience_id}", status_code=status.HTTP_200_OK)
+@router.delete("/{experience_id}", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_admin)])
 def delete(experience_id: UUID, db: Session = Depends(get_db)):
     """
     Delete an experience
