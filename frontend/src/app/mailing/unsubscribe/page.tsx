@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const Loading = () => (
-    <div className="min-h-screen w-screen flex items-center justify-center bg-bg-base">
+    <div className="min-h-screen w-full flex items-center justify-center bg-bg-base">
         <div className="flex flex-col items-center gap-3">
             <div className="w-5 h-5 rounded-full border-2 border-(--border-strong) border-t-accent animate-spin" />
             <span className="font-mono text-[0.65rem] tracking-widest uppercase text-text-muted">

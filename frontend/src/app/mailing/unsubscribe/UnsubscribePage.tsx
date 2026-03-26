@@ -33,7 +33,7 @@ const UnsubscribePage = () => {
     }, []);
 
     return (
-        <div className="min-h-screen w-screen flex items-center justify-center bg-bg-base px-6">
+        <div className="min-h-screen w-full flex items-center justify-center bg-bg-base px-6">
             <div className="w-full max-w-md flex flex-col items-center gap-8 text-center">
                 <div className="flex flex-col items-center gap-3">
                     <h1 className="font-bold tracking-widest uppercase text-accent text-2xl">

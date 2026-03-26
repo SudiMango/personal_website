@@ -97,7 +97,7 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="flex min-h-screen w-screen items-center justify-center bg-bg-sunken py-20">
+        <div className="flex min-h-screen w-full items-center justify-center bg-bg-sunken py-20">
             <div className="w-full max-w-md mx-auto px-10 flex flex-col items-center gap-10">
                 {/* Heading */}
                 <div className="flex flex-col items-center gap-2 text-center">
