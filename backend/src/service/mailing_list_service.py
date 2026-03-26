@@ -25,8 +25,8 @@ class MailingListService:
             self._send_unenrollment_email(email)
     
 
-    def _send_enrollment_email(self, recipient: str, enrollment_id: str) -> None:
-        unsubscribe_link = f"https://sudicodes.xyz/mailing/unsubscribe?enrollid={enrollment_id}&email={recipient}"
+    def _send_enrollment_email(self, recipient: str, enroll_id: str) -> None:
+        unsubscribe_link = f"https://sudicodes.xyz/mailing/unsubscribe?enroll_id={enroll_id}&email={recipient}"
         subject = "You're on the list! 🎉"
         body = f"""
         Hi there!

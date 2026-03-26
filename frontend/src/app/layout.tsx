@@ -38,6 +38,7 @@ export default function RootLayout({
                     duration={5000}
                     closeButton
                     richColors
+                    style={{ top: "72px", right: "16px" }}
                 />
             </body>
         </html>
