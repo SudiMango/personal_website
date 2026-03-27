@@ -1,13 +1,32 @@
 "use client";
+import apiClient from "@/lib/client";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: connect to backend
+        if (!username || !password || loading) return;
+
+        setLoading(true);
+        const id = toast.loading("Authenticating...");
+
+        try {
+            await apiClient.post("/auth/login", {
+                username: username,
+                password: password,
+            });
+
+            window.location.href = "/admin/dashboard";
+        } catch (err: any) {
+            toast.error("Error loggin in.", { id });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -29,7 +48,8 @@ const LoginPage = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         autoComplete="username"
-                        className="text-sm px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200"
+                        disabled={loading}
+                        className="text-sm px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200 disabled:opacity-50"
                     />
                 </div>
 
@@ -42,15 +62,17 @@ const LoginPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         autoComplete="current-password"
-                        className="text-sm px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200"
+                        disabled={loading}
+                        className="text-sm px-3 py-2 rounded-lg border border-(--border) bg-bg-elevated text-text-primary placeholder:text-text-muted focus:outline-none focus:border-(--border-strong) transition-colors duration-200 disabled:opacity-50"
                     />
                 </div>
 
                 <button
                     type="submit"
-                    className="mt-2 text-sm px-4 py-2 rounded-lg border border-(--border-strong) bg-bg-elevated text-text-secondary hover:bg-bg-hover hover:text-text-primary transition-all duration-200"
+                    disabled={loading}
+                    className="mt-2 text-sm px-4 py-2 rounded-lg border border-(--border-strong) bg-bg-elevated text-text-secondary hover:bg-bg-hover hover:text-text-primary transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                    Login
+                    {loading ? "Logging in..." : "Login"}
                 </button>
             </form>
         </div>
