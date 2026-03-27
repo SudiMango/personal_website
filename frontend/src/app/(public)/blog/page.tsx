@@ -1,15 +1,15 @@
-import HomePage from "@/components/HomePage";
+import BlogPage from "@/components/public/BlogPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Home",
-    description: "Home",
+    title: "Blog",
+    description: "Blog",
 };
 
 const Home = () => {
     return (
         <div className="flex flex-col justify-center items-center w-full h-full">
-            <HomePage />
+            <BlogPage />
         </div>
     );
 };
