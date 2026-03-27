@@ -1,4 +1,4 @@
-import BlogPage from "@/components/BlogPage";
+import BlogPage from "@/components/public/BlogPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

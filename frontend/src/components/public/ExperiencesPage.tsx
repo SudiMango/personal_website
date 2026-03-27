@@ -1,7 +1,7 @@
 "use client";
 
 import apiClient from "@/lib/client";
-import { Experience } from "@/lib/schemas";
+import { ExperienceResponse } from "@/lib/schemas";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -26,7 +26,7 @@ const SkeletonCard = () => (
     </div>
 );
 
-const ExperienceGroup = ({ exp }: { exp: Experience }) => (
+const ExperienceGroup = ({ exp }: { exp: ExperienceResponse }) => (
     <div className="flex flex-col gap-0">
         <p className="font-bold text-text-primary text-base mb-4">
             {exp.company}
@@ -74,7 +74,9 @@ const ExperienceGroup = ({ exp }: { exp: Experience }) => (
 );
 
 const ExperiencesPage = () => {
-    const [workExperiences, setWorkExperiences] = useState<Experience[]>([]);
+    const [workExperiences, setWorkExperiences] = useState<
+        ExperienceResponse[]
+    >([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

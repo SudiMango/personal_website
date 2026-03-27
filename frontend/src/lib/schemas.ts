@@ -1,4 +1,6 @@
-export type Role = {
+export type RoleResponse = {
+    role_id: string;
+    experience_id: string;
     role_title: string;
     date_range: string;
     description: string;
@@ -6,8 +8,9 @@ export type Role = {
     sort_order: number;
 };
 
-export type Experience = {
+export type ExperienceResponse = {
+    experience_id: string;
     company: string;
-    roles: Role[];
+    roles: RoleResponse[];
     sort_order: number;
 };
