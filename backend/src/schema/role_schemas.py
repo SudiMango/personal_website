@@ -6,6 +6,7 @@ class RoleBase(BaseModel):
     role_title: str
     date_range: str
     description: str
+    sort_order: int = 0
     tags: List[str] = []
 
 """
@@ -19,6 +20,7 @@ class UpdateRoleRequest(BaseModel):
     role_title: Optional[str] = None
     date_range: Optional[str] = None
     description: Optional[str] = None
+    sort_order: Optional[int] = None
     tags: List[str] = []
 
 """
