@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from src.router import experience_router, role_router
-from src.router import health_check_router, mailing_list_router
+from src.router import health_check_router, mailing_list_router, auth_router, experience_router, role_router
 
 app = FastAPI()
 
@@ -18,5 +17,6 @@ app.add_middleware(
 
 app.include_router(health_check_router.router)
 app.include_router(mailing_list_router.router)
+app.include_router(auth_router.router)
 app.include_router(experience_router.router)
 app.include_router(role_router.router)

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from src.schema.role_schemas import CreateRoleRequest, RoleResponse, UpdateRoleRequest
 from ..db import get_db
 from ..service.role_service import RoleService
-from ..auth import verify_admin
+from ..utils import verify_admin
 
 router = APIRouter(prefix="/role")
 service = RoleService()

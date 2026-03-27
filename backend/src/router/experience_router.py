@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from src.schema.experience_schemas import CreateExperienceRequest, ExperienceResponse, UpdateExperienceRequest
 from ..db import get_db
 from ..service.experience_service import ExperienceService
-from ..auth import verify_admin
+from ..utils import verify_admin
 
 router = APIRouter(prefix="/experience")
 service = ExperienceService()
