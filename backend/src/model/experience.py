@@ -10,4 +10,4 @@ class Experience(Base):
     company= Column(String, nullable=False)
     sort_order = Column(Integer, server_default="0", nullable=False)
 
-    roles = relationship("Role", back_populates="experience", cascade="all, delete-orphan")
+    roles = relationship("Role", back_populates="experience", cascade="all, delete-orphan", order_by="Role.sort_order.asc()")

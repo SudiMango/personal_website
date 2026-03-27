@@ -47,7 +47,9 @@ const RoleForm = ({
     const [roleTitle, setRoleTitle] = useState(initial?.role_title ?? "");
     const [dateRange, setDateRange] = useState(initial?.date_range ?? "");
     const [description, setDescription] = useState(initial?.description ?? "");
-    const [sortOrder, setSortOrder] = useState(initial?.sort_order ?? 0);
+    const [sortOrder, setSortOrder] = useState<number | "">(
+        initial?.sort_order ?? 0,
+    );
     const [tagsInput, setTagsInput] = useState(initial?.tags.join(", ") ?? "");
     const [loading, setLoading] = useState(false);
 
@@ -137,9 +139,12 @@ const RoleForm = ({
                     type="number"
                     min={0}
                     className={inputClass}
-                    placeholder="0"
+                    placeholder="e.g. 1"
                     value={sortOrder}
-                    onChange={(e) => setSortOrder(Number(e.target.value))}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setSortOrder(val === "" ? "" : Number(val));
+                    }}
                     required
                 />
             </div>
@@ -247,6 +252,9 @@ const ExperienceCard = ({
     const [expanded, setExpanded] = useState(true);
     const [editingCompany, setEditingCompany] = useState(false);
     const [company, setCompany] = useState(exp.company);
+    const [sortOrder, setSortOrder] = useState<number | "">(
+        exp.sort_order ?? 0,
+    );
     const [addingRole, setAddingRole] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -257,6 +265,7 @@ const ExperienceCard = ({
         try {
             await apiClient.patch(`/experience/${exp.experience_id}`, {
                 company,
+                sort_order: sortOrder,
             });
             toast.success("Company updated.", { id });
             setEditingCompany(false);
@@ -288,7 +297,7 @@ const ExperienceCard = ({
                 {editingCompany ? (
                     <form
                         onSubmit={handleUpdateCompany}
-                        className="flex gap-2 flex-1"
+                        className="flex flex-col gap-2 w-full"
                     >
                         <input
                             className={inputClass}
@@ -296,25 +305,43 @@ const ExperienceCard = ({
                             onChange={(e) => setCompany(e.target.value)}
                             required
                         />
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className={btnPrimary}
-                        >
-                            Save
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setEditingCompany(false)}
-                            className={btnGhost}
-                        >
-                            <X size={14} />
-                        </button>
+                        <input
+                            type="number"
+                            min={0}
+                            className={inputClass}
+                            value={sortOrder}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                setSortOrder(val === "" ? "" : Number(val));
+                            }}
+                            required
+                        />
+                        <div className="ml-auto flex gap-2">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={btnPrimary}
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setEditingCompany(false)}
+                                className={btnGhost}
+                            >
+                                <X size={14} />
+                            </button>
+                        </div>
                     </form>
                 ) : (
-                    <span className="font-bold text-text-primary text-base">
-                        {exp.company}
-                    </span>
+                    <div className="flex flex-col">
+                        <span className="font-bold text-text-primary text-base">
+                            {exp.company}
+                        </span>
+                        <span className="text-[0.75rem] text-text-secondary mt-1 leading-relaxed">
+                            Sort order: {exp.sort_order}
+                        </span>
+                    </div>
                 )}
                 <div className="flex gap-2 shrink-0">
                     {!editingCompany && (
@@ -381,7 +408,7 @@ const AdminExperiencesPage = () => {
     const [loading, setLoading] = useState(true);
     const [addingExp, setAddingExp] = useState(false);
     const [newCompany, setNewCompany] = useState("");
-    const [sortIndex, setSortIndex] = useState(0);
+    const [sortOrder, setSortOrder] = useState<number | "">(0);
 
     const fetchAll = async () => {
         try {
@@ -404,14 +431,14 @@ const AdminExperiencesPage = () => {
         try {
             await apiClient.post("/experience", {
                 company: newCompany,
-                sort_index: sortIndex,
+                sort_order: sortOrder,
             });
             toast.success("Experience created.", { id });
             setNewCompany("");
-            setSortIndex(0);
+            setSortOrder(0);
             setAddingExp(false);
             fetchAll();
-        } catch {
+        } catch (err: any) {
             toast.error("Something went wrong.", { id });
         }
     };
@@ -446,9 +473,12 @@ const AdminExperiencesPage = () => {
                         type="number"
                         min={0}
                         className={inputClass}
-                        placeholder="0"
-                        value={sortIndex}
-                        onChange={(e) => setSortIndex(Number(e.target.value))}
+                        placeholder="e.g. 1"
+                        value={sortOrder}
+                        onChange={(e) => {
+                            const val = e.target.value;
+                            setSortOrder(val === "" ? "" : Number(val));
+                        }}
                         required
                     />
                     <div className="flex flex-row gap-2 ml-auto">

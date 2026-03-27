@@ -5,7 +5,7 @@ from src.schema.role_schemas import RoleResponse
 
 class ExperienceBase(BaseModel):
     company: str
-    sort_order: int = 0
+    sort_order: int
 
 """
 Request
