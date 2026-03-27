@@ -9,6 +9,10 @@ services:
             ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
             SENDER_EMAIL: ${SENDER_EMAIL}
             SENDER_PASSWORD: ${SENDER_PASSWORD}
+            ADMIN_USERNAME: ${ADMIN_USERNAME}
+            ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+            ADMIN_SECRET_KEY: ${ADMIN_SECRET_KEY}
+            ENVIRONMENT: ${ENVIRONMENT}
 
     frontend:
         build:

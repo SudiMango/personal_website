@@ -4,9 +4,6 @@ from src.config import ADMIN_COOKIE_MAX_AGE, ADMIN_COOKIE_NAME, ADMIN_PASSWORD_H
 from src.schema.auth_schemas import LoginRequest
 from fastapi import HTTPException, status, Response
 from ..utils import hash_string
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class AuthService():
 
