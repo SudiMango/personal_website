@@ -1,91 +1,40 @@
-type Role = {
-    role: string;
-    dateRange: string;
-    description: string;
-    tags: string[];
-};
+"use client";
 
-type Experience = {
-    company: string;
-    roles: Role[];
-};
+import apiClient from "@/lib/client";
+import { Experience } from "@/lib/schemas";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-const workExperiences: Experience[] = [
-    {
-        company: "Motion UBC",
-        roles: [
-            {
-                role: "Software Developer",
-                dateRange: "Mar 2026 - Present",
-                description: "No description (since I just started).",
-                tags: [],
-            },
-        ],
-    },
-    {
-        company: "The Cornerstore",
-        roles: [
-            {
-                role: "Software Development Team Lead",
-                dateRange: "Feb 2026 - Present",
-                description:
-                    "Led a 4-person team through weekly sprints; delegating tasks, writing API documentation, tracking deadlines, and contributing full-stack across the backend and frontend.",
-                tags: [
-                    "Team Leadership",
-                    "Full Stack",
-                    "Agile",
-                    "Python",
-                    "TypeScript",
-                    "FastAPI",
-                    "PostgreSQL",
-                    "Next.js",
-                    "React",
-                ],
-            },
-            {
-                role: "Software Developer",
-                dateRange: "Oct 2025 - Feb 2026",
-                description:
-                    "Built full-stack features in an agile team; FastAPI/SQLAlchemy backend with JWT auth, and Next.js/Tailwind frontend from Figma designs.",
-                tags: [
-                    "Python",
-                    "TypeScript",
-                    "FastAPI",
-                    "PostgreSQL",
-                    "Next.js",
-                    "React",
-                    "Agile",
-                    "Full Stack",
-                ],
-            },
-        ],
-    },
-    {
-        company: "University of British Columbia",
-        roles: [
-            {
-                role: "Computer Science Teaching Assistant",
-                dateRange: "Sep 2025 - Apr 2026",
-                description:
-                    "Supported 50+ students across labs and office hours, reinforcing Java, OOP design patterns, and software engineering practices.",
-                tags: ["Java", "Teaching", "OOP"],
-            },
-        ],
-    },
-];
+const SkeletonCard = () => (
+    <div className="flex flex-col gap-3 p-6 rounded-xl border border-(--border) bg-bg-surface animate-pulse">
+        <div className="h-6 w-1/3 bg-bg-sunken rounded mb-4" />
+        <div className="flex gap-5">
+            <div className="flex flex-col items-center">
+                <div className="w-2 h-2 rounded-full bg-bg-sunken shrink-0 mt-1.5" />
+                <div className="flex-1 w-0.5 rounded-2xl bg-bg-sunken mt-1.5" />
+            </div>
+            <div className="flex flex-col gap-3 w-full pb-6">
+                <div className="h-4 w-1/2 bg-bg-sunken rounded" />
+                <div className="h-3 w-1/4 bg-bg-sunken rounded" />
+                <div className="h-16 w-full bg-bg-sunken rounded" />
+                <div className="flex gap-2">
+                    <div className="h-6 w-12 bg-bg-sunken rounded-full" />
+                    <div className="h-6 w-12 bg-bg-sunken rounded-full" />
+                </div>
+            </div>
+        </div>
+    </div>
+);
 
 const ExperienceGroup = ({ exp }: { exp: Experience }) => (
     <div className="flex flex-col gap-0">
-        {/* Company header */}
         <p className="font-bold text-text-primary text-base mb-4">
             {exp.company}
         </p>
 
-        {/* Roles with timeline */}
         <div className="flex flex-col">
             {exp.roles.map((r, i) => (
                 <div key={i} className="flex gap-5">
-                    {/* Timeline */}
                     <div className="flex flex-col items-center">
                         <div className="w-2 h-2 rounded-full bg-text-muted shrink-0 mt-1.5" />
                         {i < exp.roles.length - 1 && (
@@ -93,16 +42,15 @@ const ExperienceGroup = ({ exp }: { exp: Experience }) => (
                         )}
                     </div>
 
-                    {/* Role content */}
                     <div
                         className={`flex flex-col gap-2 ${i < exp.roles.length - 1 ? "pb-6" : ""}`}
                     >
                         <div>
                             <p className="font-semibold text-text-primary text-sm">
-                                {r.role}
+                                {r.role_title}
                             </p>
                             <p className="text-[0.7rem] text-text-secondary tracking-wider mt-0.5">
-                                {r.dateRange}
+                                {r.date_range}
                             </p>
                         </div>
                         <p className="text-sm text-text-secondary leading-relaxed">
@@ -126,6 +74,26 @@ const ExperienceGroup = ({ exp }: { exp: Experience }) => (
 );
 
 const ExperiencesPage = () => {
+    const [workExperiences, setWorkExperiences] = useState<Experience[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const handleGetWorkExperiences = async () => {
+            try {
+                const response = await apiClient.get("/experience/all");
+                if (response) {
+                    setWorkExperiences(response.data);
+                }
+            } catch (err: any) {
+                toast.error("Error loading experiences.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        handleGetWorkExperiences();
+    }, []);
+
     return (
         <div className="flex min-h-screen w-screen justify-center bg-bg-sunken items-center py-20">
             <div className="max-w-2xl w-full mx-auto flex flex-col gap-14 px-6">
@@ -133,14 +101,27 @@ const ExperiencesPage = () => {
                     <h2 className="font-bold tracking-widest uppercase text-accent text-2xl">
                         Experiences
                     </h2>
-                    {workExperiences.map((exp, i) => (
-                        <div
-                            key={i}
-                            className="flex flex-col gap-3 p-6 rounded-xl border border-(--border) bg-bg-surface hover:border-(--border-strong) transition-colors duration-200"
-                        >
-                            <ExperienceGroup exp={exp} />
+
+                    {isLoading ? (
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <SkeletonCard key={i} />
+                        ))
+                    ) : workExperiences.length > 0 ? (
+                        workExperiences.map((exp, i) => (
+                            <div
+                                key={i}
+                                className="flex flex-col gap-3 p-6 rounded-xl border border-(--border) bg-bg-surface hover:border-(--border-strong) transition-colors duration-200"
+                            >
+                                <ExperienceGroup exp={exp} />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center p-12 border-2 border-dashed border-(--border) rounded-xl">
+                            <p className="text-text-secondary font-medium italic">
+                                No experiences to show yet.
+                            </p>
                         </div>
-                    ))}
+                    )}
                 </section>
             </div>
         </div>
